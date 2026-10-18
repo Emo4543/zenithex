@@ -1,8 +1,8 @@
 {
-  "name": "zenithex",
+  "name": "zenith",
   "version": "1.0.0",
-  "description": "Luau editor and script hub that sends code to your own Roblox Studio",
-  "author": "Zenithex",
+  "description": "ZENITH - Game Launcher & FPS Booster",
+  "author": "Zenith",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -13,10 +13,10 @@
     "electron-builder": "^24.13.3"
   },
   "build": {
-    "appId": "com.zenithex.app",
-    "productName": "Zenithex",
+    "appId": "com.zenith.app",
+    "productName": "ZENITH",
     "artifactName": "ZenithexApp.${ext}",
-    "files": ["main.js", "preload.js", "renderer/**/*"],
+    "files": ["*.js", "*.html", "*.css", "package.json"],
     "win": { "target": "zip" }
   }
 }

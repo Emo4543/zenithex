@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <title>ZENITH</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-accent="purple">
+
+<div id="splash">
+  <div class="splash-glow"></div>
+  <div class="splash-logo">
+    <span>Z</span><span>E</span><span>N</span><span>I</span><span>T</span><span>H</span>
+  </div>
+  <div class="splash-sub">GAME LAUNCHER &amp; FPS BOOSTER</div>
+  <div class="splash-bar"><div id="splashBar"></div></div>
+  <div class="splash-pct" id="splashPct">0%</div>
+</div>
+
+<div class="bg"></div>
+
+<div id="app">
+  <div class="titlebar">
+    <div class="brand">ZENITH</div>
+    <div class="tag">PREMIUM HUB</div>
+    <div class="spacer"></div>
+    <div class="winctl">
+      <button id="wMin">&#8212;</button>
+      <button id="wMax">&#9633;</button>
+      <button id="wClose" class="close">&#10005;</button>
+    </div>
+  </div>
+
+  <div class="shell">
+    <nav>
+      <button class="nav active" data-tab="dash"><i>🎮</i><span>Oyunlarım</span></button>
+      <button class="nav" data-tab="boost"><i>⚡</i><span>Game Booster</span></button>
+      <button class="nav" data-tab="gfx"><i>🎨</i><span>Grafik Optimizatörü</span></button>
+      <button class="nav" data-tab="tools"><i>🛠</i><span>Sistem Araçları</span></button>
+      <button class="nav" data-tab="settings"><i>⚙</i><span>Ayarlar</span></button>
+      <div class="navfoot">v1.0 • ZENITH</div>
+    </nav>
+
+    <main>
+      <!-- DASHBOARD -->
+      <section class="page active" id="tab-dash">
+        <div class="stats">
+          <div class="stat"><div class="sl">CPU</div><div class="sv" id="cpuV">--%</div><div class="meter"><div id="cpuB"></div></div></div>
+          <div class="stat"><div class="sl">RAM</div><div class="sv" id="ramV">--%</div><div class="meter"><div id="ramB"></div></div></div>
+          <div class="stat"><div class="sl">OYUN</div><div class="sv" id="gameCount">0</div><div class="sd">algılanan / eklenen</div></div>
+        </div>
+        <div class="toolbar">
+          <input id="search" type="text" placeholder="Oyun ara...">
+          <button id="btnScan" class="btn">⟳ Yeniden Tara</button>
+          <button id="btnAdd" class="btn accent">＋ Oyun Ekle (.exe)</button>
+        </div>
+        <div id="grid" class="grid"></div>
+      </section>
+
+      <!-- BOOSTER -->
+      <section class="page" id="tab-boost">
+        <h2>Game Booster</h2>
+        <p class="sub">Bir oyunu "Boost + Başlat" ile açtığında burada seçtiklerin uygulanır, oyun kapanınca otomatik geri alınır.</p>
+        <div class="cols">
+          <div class="panel">
+            <h3>Boost Seçenekleri</h3>
+            <label class="row"><span>Güç planı: Nihai / Yüksek Performans</span><label class="sw"><input type="checkbox" data-set="power"><b></b></label></label>
+            <label class="row"><span>Başlatmadan önce RAM temizle</span><label class="sw"><input type="checkbox" data-set="ramClean"><b></b></label></label>
+            <label class="row"><span>Oyun CPU önceliği: Yüksek</span><label class="sw"><input type="checkbox" data-set="priority"><b></b></label></label>
+            <label class="row"><span>Seçili arka plan uygulamalarını askıya al</span><label class="sw"><input type="checkbox" data-set="suspend"><b></b></label></label>
+            <label class="row"><span>Oyun kapanınca her şeyi geri al</span><label class="sw"><input type="checkbox" data-set="restore"><b></b></label></label>
+            <div class="btnrow">
+              <button id="btnStop" class="btn pink">■ Boost'u Bitir / Geri Al</button>
+              <button id="btnResume" class="btn">▶ Askıdakileri Devam Ettir</button>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>Askıya Alınacak Uygulamalar</h3>
+            <p class="hint">Askıya alınan uygulama silinmez, sadece dondurulur ve oyun bitince devam eder. (Discord'u askıya alırsan sesli sohbet kesilir.)</p>
+            <div id="appList"></div>
+            <div class="addapp"><input id="appInput" placeholder="işlem adı (örn: obs64)"><button id="appAdd" class="btn">Ekle</button></div>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>Boost Günlüğü</h3>
+          <div id="boostLog" class="log"></div>
+        </div>
+      </section>
+
+      <!-- GRAFİK -->
+      <section class="page" id="tab-gfx">
+        <h2>Grafik Optimizatörü</h2>
+        <p class="sub">Oyunun kendi ayar dosyasına yazar. Önce <b>oyunu kapat</b>. İlk değişiklikte orijinal dosyanın yedeği alınır.</p>
+        <div class="cols">
+          <div class="panel">
+            <h3>Hedef Oyun</h3>
+            <select id="gfxTarget"></select>
+            <div class="hint" id="gfxPath"></div>
+            <div id="customBox" class="hidden">
+              <button id="gfxPick" class="btn">📂 Dosya Seç</button>
+              <textarea id="gfxCustom" placeholder="Her satır:  Bölüm | Anahtar = Değer&#10;Örnek:&#10;/Script/Engine.GameUserSettings | sg.TextureQuality = 0"></textarea>
+            </div>
+            <h3>Doku / Kalite Ön Ayarı</h3>
+            <div class="presets">
+              <label><input type="radio" name="preset" value="low"><span>Düşük (en çok FPS)</span></label>
+              <label><input type="radio" name="preset" value="medium" checked><span>Orta</span></label>
+              <label><input type="radio" name="preset" value="high"><span>Yüksek</span></label>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>Ekran</h3>
+            <label class="field">Çözünürlük
+              <select id="gfxRes">
+                <option value="keep">Değiştirme</option>
+                <option value="1280x720">1280 x 720</option>
+                <option value="1600x900">1600 x 900</option>
+                <option value="1920x1080">1920 x 1080</option>
+                <option value="2560x1440">2560 x 1440</option>
+              </select>
+            </label>
+            <label class="field">Ekran modu
+              <select id="gfxFs">
+                <option value="keep">Değiştirme</option>
+                <option value="fullscreen">Tam ekran</option>
+                <option value="borderless">Kenarlıksız tam ekran</option>
+                <option value="windowed">Pencere</option>
+              </select>
+            </label>
+            <label class="field">Parlaklık: <b id="briV">50</b>
+              <input id="gfxBri" type="range" min="0" max="100" value="50">
+            </label>
+            <p class="hint">Parlaklık yalnızca ayar anahtarı bilinen oyunlarda (Minecraft) uygulanır. Kontrast ve diğer oyunlar için "Özel INI" modunu kullan.</p>
+            <div class="btnrow">
+              <button id="gfxApply" class="btn accent">✔ Uygula</button>
+              <button id="gfxRestore" class="btn pink">↺ Orijinale Dön</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ARAÇLAR -->
+      <section class="page" id="tab-tools">
+        <h2>Sistem Araçları</h2>
+        <p class="sub">Tek tıkla temizlik ve optimizasyon.</p>
+        <div class="toolgrid">
+          <div class="tool"><div class="ti">🧠</div><h4>RAM Temizliği</h4><p>Çalışan işlemlerin gereksiz bellek kullanımını boşaltır.</p><button class="btn accent" id="tRam">Temizle</button></div>
+          <div class="tool"><div class="ti">🗑</div><h4>Önbellek / Temp</h4><p>Geçici dosyaları siler.</p><button class="btn accent" id="tTemp">Temizle</button></div>
+          <div class="tool"><div class="ti">🌐</div><h4>DNS Temizle</h4><p>DNS önbelleğini sıfırlar.</p><button class="btn accent" id="tDns">Çalıştır</button></div>
+        </div>
+        <div class="panel">
+          <h3>Windows Oyun Optimizasyonları</h3>
+          <label class="row"><span>Game DVR (arka plan kaydı) kapalı <em>önerilen</em></span><label class="sw"><input type="checkbox" data-tool="dvr"><b></b></label></label>
+          <label class="row"><span>Game Bar yakalama kapalı <em>önerilen</em></span><label class="sw"><input type="checkbox" data-tool="capture"><b></b></label></label>
+          <label class="row"><span>Tam ekran iyileştirmeleri kapalı</span><label class="sw"><input type="checkbox" data-tool="fso"><b></b></label></label>
+          <label class="row"><span>Windows Oyun Modu açık <em>önerilen</em></span><label class="sw"><input type="checkbox" data-tool="gamemode"><b></b></label></label>
+          <label class="row"><span>Ağ: Nagle algoritması kapalı <em>yönetici izni ister, etkisi oyuna göre değişir</em></span><label class="sw"><input type="checkbox" data-tool="nagle"><b></b></label></label>
+        </div>
+      </section>
+
+      <!-- AYARLAR -->
+      <section class="page" id="tab-settings">
+        <h2>Ayarlar</h2>
+        <div class="panel">
+          <h3>Tema Rengi</h3>
+          <div class="accents">
+            <button data-accent="purple" class="ac a-purple"></button>
+            <button data-accent="blue" class="ac a-blue"></button>
+            <button data-accent="green" class="ac a-green"></button>
+            <button data-accent="pink" class="ac a-pink"></button>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>Hakkında</h3>
+          <p class="hint">ZENITH, oyunlarını tek yerden başlatır ve Windows'un kendi ayarlarını kullanarak performansı artırır. Hiçbir oyunun belleğine veya sürecine müdahale etmez.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<div id="toasts"></div>
+<script src="app.js"></script>
+</body>
+</html>
