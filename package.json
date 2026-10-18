@@ -1,0 +1,22 @@
+{
+  "name": "zenithex",
+  "version": "1.0.0",
+  "description": "Luau editor and script hub that sends code to your own Roblox Studio",
+  "author": "Zenithex",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win zip"
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.zenithex.app",
+    "productName": "Zenithex",
+    "artifactName": "ZenithexApp.${ext}",
+    "files": ["main.js", "preload.js", "renderer/**/*"],
+    "win": { "target": "zip" }
+  }
+}
